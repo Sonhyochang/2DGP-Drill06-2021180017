@@ -28,13 +28,18 @@ x, y = TUK_WIDTH // 2, TUK_HEIGHT // 2
 frame = 0
 hide_cursor()
 
+new_x = random.randint(1,TUK_WIDTH)
+new_y = random.randint(1,TUK_HEIGHT)
+
+print(new_x)
+print(new_y)
 while running:
     clear_canvas()
     TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
+    Hand_arrow.draw(new_x,new_y)
     character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
     update_canvas()
     frame = (frame + 1) % 8
-
     handle_events()
 
 close_canvas()
