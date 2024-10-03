@@ -28,6 +28,11 @@ def handle_events():
             running = False
     pass
 
+def random_hand():
+    global new_x,new_y
+
+    new_x = random.randint(1, TUK_WIDTH)
+    new_y = random.randint(1, TUK_HEIGHT)
 
 def draw_master():
     global frame
@@ -43,30 +48,34 @@ def draw_master():
 def trace_cursor():
     global x1,y1,new_x,new_y,frame
 
-    if new_x > x1 and new_y > y1 :
+    if new_x > x1 and new_y > y1:
         a = (new_y-y1)/(new_x-x1)
         b = y1 - x1 * a
         for x1 in range(x1,new_x+1,10):
             y1 = a * x1 + b
             draw_master()
+        random_hand()
     elif new_x < x1 and new_y > y1:
         a = (new_y - y1) / (new_x - x1)
         b = y1 - x1 * a
         for x1 in range(x1, new_x + 1, -10):
             y1 = a * x1 + b
             draw_master()
+        random_hand()
     elif new_x < x1 and new_y < y1:
         a = (new_y - y1) / (new_x - x1)
         b = y1 - x1 * a
         for x1 in range(x1, new_x + 1, -10):
             y1 = a * x1 + b
             draw_master()
+        random_hand()
     elif new_x > x1 and new_y < y1:
         a = (new_y - y1) / (new_x - x1)
         b = y1 - x1 * a
         for x1 in range(x1, new_x + 1, 10):
             y1 = a * x1 + b
             draw_master()
+        random_hand()
 
 while running:
 
