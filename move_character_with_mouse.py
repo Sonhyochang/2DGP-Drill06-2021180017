@@ -27,6 +27,10 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
     pass
+def draw_master():
+    clear_canvas()
+    TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
+    Hand_arrow.draw(new_x, new_y)  # 랜덤 위치 손
 
 def random_hand():
     global new_x,new_y
@@ -34,12 +38,19 @@ def random_hand():
     new_x = random.randint(1, TUK_WIDTH)
     new_y = random.randint(1, TUK_HEIGHT)
 
-def draw_master():
+def draw_right():
     global frame
-    clear_canvas()
-    TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
-    Hand_arrow.draw(new_x, new_y)  # 랜덤 위치 손
+    draw_master()
     character.clip_draw(frame * 100, 100 * 1, 100, 100, x1, y1)
+    update_canvas()
+    frame = (frame + 1) % 8
+    delay(0.05)
+    handle_events()
+
+def draw_left():
+    global frame
+    draw_master()
+    character.clip_composite_draw(frame * 100, 100 * 1, 100, 100,0,'h', x1, y1,90,90)
     update_canvas()
     frame = (frame + 1) % 8
     delay(0.05)
@@ -53,28 +64,28 @@ def trace_cursor():
         b = y1 - x1 * a
         for x1 in range(x1,new_x+1,10):
             y1 = a * x1 + b
-            draw_master()
+            draw_right()
         random_hand()
     elif new_x < x1 and new_y > y1:
         a = (new_y - y1) / (new_x - x1)
         b = y1 - x1 * a
         for x1 in range(x1, new_x + 1, -10):
             y1 = a * x1 + b
-            draw_master()
+            draw_left()
         random_hand()
     elif new_x < x1 and new_y < y1:
         a = (new_y - y1) / (new_x - x1)
         b = y1 - x1 * a
         for x1 in range(x1, new_x + 1, -10):
             y1 = a * x1 + b
-            draw_master()
+            draw_left()
         random_hand()
     elif new_x > x1 and new_y < y1:
         a = (new_y - y1) / (new_x - x1)
         b = y1 - x1 * a
         for x1 in range(x1, new_x + 1, 10):
             y1 = a * x1 + b
-            draw_master()
+            draw_right()
         random_hand()
 
 while running:
